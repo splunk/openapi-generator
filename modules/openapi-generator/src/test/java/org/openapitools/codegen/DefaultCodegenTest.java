@@ -470,6 +470,21 @@ public class DefaultCodegenTest {
     }
 
     @Test
+    public void testOneOfWithinAllOff() {
+        final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/oneOfWithinAllOf.yaml");
+        DefaultCodegen codegen = new DefaultCodegen();
+
+        Schema person = openAPI.getComponents().getSchemas().get("Person");
+        codegen.setOpenAPI(openAPI);
+        CodegenModel personModel = codegen.fromModel("Person", person);
+        System.out.println(personModel);
+        List<String> expectedInterfaces = new ArrayList<>();
+        expectedInterfaces.add("PersonCommon");
+        expectedInterfaces.add("People");
+        Assert.assertEquals(personModel.interfaces, expectedInterfaces);
+    }
+
+    @Test
     public void testCallbacks() {
         final OpenAPI openAPI = TestUtils.parseSpec("src/test/resources/3_0/callbacks.yaml");
         final CodegenConfig codegen = new DefaultCodegen();

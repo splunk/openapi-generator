@@ -854,13 +854,20 @@ public class ModelUtils {
      * @return a list of schema defined in allOf, anyOf or oneOf
      */
     public static List<Schema> getInterfaces(ComposedSchema composed) {
+        List<Schema> schemaList = new ArrayList<>();
         if (composed.getAllOf() != null && !composed.getAllOf().isEmpty()) {
-            return composed.getAllOf();
-        } else if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
-            return composed.getAnyOf();
-        } else if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
-            return composed.getOneOf();
-        } else {
+            schemaList.addAll(composed.getAllOf());
+        }
+        if (composed.getAnyOf() != null && !composed.getAnyOf().isEmpty()) {
+            schemaList.addAll(composed.getAnyOf());
+        }
+        if (composed.getOneOf() != null && !composed.getOneOf().isEmpty()) {
+            schemaList.addAll(composed.getOneOf());
+        }
+        if (schemaList != null && !schemaList.isEmpty()) {
+            return schemaList;
+        }
+        else {
             return Collections.<Schema>emptyList();
         }
     }
