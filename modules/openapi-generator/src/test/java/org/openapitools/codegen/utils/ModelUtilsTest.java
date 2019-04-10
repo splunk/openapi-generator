@@ -206,9 +206,22 @@ public class ModelUtilsTest {
         ObjectSchema objSchema = new ObjectSchema();
         Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
 
+        // Create object schema with additionalProperties: true
+        ObjectSchema objSchemaAdlPropsTrue = new ObjectSchema();
+        objSchemaAdlPropsTrue.setAdditionalProperties(true);
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchemaAdlPropsTrue));
+
+        // Create object schema with additionalProperties: {}
+        ObjectSchema objSchemaAdlPropsBlank = new ObjectSchema();
+        objSchemaAdlPropsBlank.setAdditionalProperties(new Schema());
+        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchemaAdlPropsBlank));
+
         // Set additionalProperties to an empty ObjectSchema.
+        // This is actually a map of maps which is more restrictive than a free form object
+        // e.g. {"foo": {"bar": 1}} would be a valid map of maps
+        // however {"foo": 10} (which is a free form object) would NOT match this schema
         objSchema.setAdditionalProperties(new ObjectSchema());
-        Assert.assertTrue(ModelUtils.isFreeFormObject(objSchema));
+        Assert.assertFalse(ModelUtils.isFreeFormObject(objSchema));
 
         // Add a single property to the schema (no longer a free-form object).
         Map<String, Schema> props = new HashMap<>();

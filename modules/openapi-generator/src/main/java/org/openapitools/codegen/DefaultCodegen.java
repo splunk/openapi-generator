@@ -1756,7 +1756,7 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
-                m.isMapModel = true;
+                m.isMapModel = Boolean.TRUE;
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
@@ -1765,6 +1765,14 @@ public class DefaultCodegen implements CodegenConfig {
             }
             if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
+            }
+            if (ModelUtils.isFreeFormObject(schema)) {
+                m.isFreeFormObject = Boolean.TRUE;
+                m.isAlias = Boolean.TRUE;
+            }
+            if (ModelUtils.isAnyType(schema)) {
+                m.isAnyTypeModel = Boolean.TRUE;
+                m.isAlias = Boolean.TRUE;
             }
 
             // passing null to allProperties and allRequired as there's no parent
