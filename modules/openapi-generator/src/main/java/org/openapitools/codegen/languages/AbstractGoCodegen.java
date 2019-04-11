@@ -273,7 +273,7 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
             if (ModelUtils.isAnyType(inner)) {
                 return "map[string]interface{}";
             }
-            return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
+            return "map[string]" + getTypeDeclaration(inner);
         } else if (ModelUtils.isFreeFormObject(p)) {
             return "map[string]interface{}";
         } else if (ModelUtils.isAnyType(p)) {
@@ -315,29 +315,24 @@ public abstract class AbstractGoCodegen extends DefaultCodegen implements Codege
 
         if (ref != null && !ref.isEmpty()) {
             type = openAPIType;
-        }
-        else if (ModelUtils.isArraySchema(p)) {
+        } else if (ModelUtils.isArraySchema(p)) {
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             if (ModelUtils.isAnyType(inner)) {
                 return "[]interface{}";
             }
             return "[]" + getTypeDeclaration(inner);
-        }
-        // else if (ModelUtils.isMapSchema(p)) {
-        //     Schema inner = ModelUtils.getAdditionalProperties(p);
-        //     if (ModelUtils.isAnyType(inner)) {
-        //         return "map[string]interface{}";
-        //     }
-        //     return getSchemaType(p) + "[string]" + getTypeDeclaration(inner);
-        // }
-        else if (ModelUtils.isFreeFormObject(p)) {
+        } else if (ModelUtils.isFreeFormObject(p)) {
             return "map[string]interface{}";
-        }
-        else if (ModelUtils.isAnyType(p)) {
+        } else if (ModelUtils.isAnyType(p)) {
             return "interface{}";
-        }
-        else if (typeMapping.containsKey(openAPIType)) {
+        } else if (ModelUtils.isMapSchema(p)) {
+            Schema inner = ModelUtils.getAdditionalProperties(p);
+            if (ModelUtils.isAnyType(inner)) {
+               return "map[string]interface{}";
+            }
+            return "map[string]" + getTypeDeclaration(inner);
+        } else if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return (type);

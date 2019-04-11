@@ -144,7 +144,7 @@ public class GoModelTest {
         Assert.assertEquals(property1.baseName, "translations");
         Assert.assertEquals(property1.dataType, "map[string]string");
         Assert.assertEquals(property1.name, "Translations");
-        Assert.assertEquals(property1.baseType, "map");
+        Assert.assertEquals(property1.baseType, "map[string]string");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
