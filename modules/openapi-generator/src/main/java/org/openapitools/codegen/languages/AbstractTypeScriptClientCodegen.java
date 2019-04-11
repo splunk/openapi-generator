@@ -265,10 +265,6 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
             ArraySchema ap = (ArraySchema) p;
             Schema inner = ap.getItems();
             return getSchemaType(p) + "<" + getTypeDeclaration(inner) + ">";
-        } else if (ModelUtils.isAnyType(p)) {
-            return "any";
-        } else if (ModelUtils.isFreeFormObject(p)) {
-            return "{ [key: string]: any; }";
         } else if (ModelUtils.isMapSchema(p)) {
             Schema inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + getTypeDeclaration(inner) + "; }";
@@ -399,11 +395,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
     public String getSchemaType(Schema p) {
         String openAPIType = super.getSchemaType(p);
         String type = null;
-        if (ModelUtils.isAnyType(p)) {
-            return "any";
-        } else if (ModelUtils.isFreeFormObject(p)) {
-            return "[key: string]: any";
-        } else if (typeMapping.containsKey(openAPIType)) {
+        if (typeMapping.containsKey(openAPIType)) {
             type = typeMapping.get(openAPIType);
             if (languageSpecificPrimitives.contains(type))
                 return type;

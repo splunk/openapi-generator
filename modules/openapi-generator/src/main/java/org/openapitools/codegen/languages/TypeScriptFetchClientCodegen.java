@@ -121,6 +121,10 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         if (ModelUtils.isArraySchema(p)) {
             inner = ((ArraySchema) p).getItems();
             return this.getSchemaType(p) + "<" + this.getTypeDeclaration(inner) + ">";
+        } else if (ModelUtils.isAnyType(p)) {
+            return "any";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "{ [key: string]: any; }";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
             return "{ [key: string]: " + this.getTypeDeclaration(inner) + "; }";
@@ -134,6 +138,16 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
             return "Date";
         }
         return super.getTypeDeclaration(p);
+    }
+
+    @Override
+    public String getSchemaType(Schema p) {
+        if (ModelUtils.isAnyType(p)) {
+            return "any";
+        } else if (ModelUtils.isFreeFormObject(p)) {
+            return "[key: string]: any";
+        }
+        return super.getSchemaType(p);
     }
 
     @Override
