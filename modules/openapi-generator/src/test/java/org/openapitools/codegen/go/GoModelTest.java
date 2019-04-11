@@ -168,7 +168,7 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "interface{}");
+        Assert.assertEquals(property1.dataType, "Children");
         Assert.assertEquals(property1.name, "Children");
         Assert.assertEquals(property1.baseType, "Children");
         Assert.assertFalse(property1.required);
@@ -192,9 +192,9 @@ public class GoModelTest {
 
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
-        Assert.assertEquals(property1.dataType, "[]interface{}");
+        Assert.assertEquals(property1.dataType, "[]Children");
         Assert.assertEquals(property1.name, "Children");
-        Assert.assertEquals(property1.baseType, "[]interface{}");
+        Assert.assertEquals(property1.baseType, "[]Children");
         Assert.assertEquals(property1.containerType, "array");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -220,9 +220,9 @@ public class GoModelTest {
         final CodegenProperty property1 = cm.vars.get(0);
         Assert.assertEquals(property1.baseName, "children");
         Assert.assertEquals(property1.complexType, "Children");
-        Assert.assertEquals(property1.dataType, "map[string]interface{}");
+        Assert.assertEquals(property1.dataType, "map[string]Children");
         Assert.assertEquals(property1.name, "Children");
-        Assert.assertEquals(property1.baseType, "map[string]interface{}");
+        Assert.assertEquals(property1.baseType, "map[string]Children");
         Assert.assertEquals(property1.containerType, "map");
         Assert.assertFalse(property1.required);
         Assert.assertTrue(property1.isContainer);
@@ -272,11 +272,11 @@ public class GoModelTest {
 
         final Schema model2 = new Schema().$ref("#/definitions/File");
         Assert.assertEquals(codegen.getSchemaType(model2), "File");
-        Assert.assertEquals(codegen.getTypeDeclaration(model2), "interface{}");
+        Assert.assertEquals(codegen.getTypeDeclaration(model2), "File");
 
         final Schema model3 = new Schema().$ref("#/components/schemas/File");
         Assert.assertEquals(codegen.getSchemaType(model3), "File");
-        Assert.assertEquals(codegen.getTypeDeclaration(model3), "interface{}");
+        Assert.assertEquals(codegen.getTypeDeclaration(model3), "File");
     }
 
     @DataProvider(name = "modelNames")
