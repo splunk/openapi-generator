@@ -1757,6 +1757,10 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = Boolean.TRUE;
+                // Maps with no properties are aliases to simple types
+                if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
+                    m.isAlias = Boolean.TRUE;
+                }
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
@@ -2030,6 +2034,8 @@ public class DefaultCodegen implements CodegenConfig {
 
         } else if (ModelUtils.isFreeFormObject(p)) {
             property.isFreeFormObject = true;
+        } else if (ModelUtils.isAnyType(p)) {
+            property.isAnyType = true;
         }
 
         //Inline enum case:
