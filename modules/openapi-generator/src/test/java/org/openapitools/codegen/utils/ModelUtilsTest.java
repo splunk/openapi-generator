@@ -235,4 +235,32 @@ public class ModelUtilsTest {
         // Test a null schema
         Assert.assertFalse(ModelUtils.isFreeFormObject(null));
     }
+
+    @Test
+    public void testIsAnyType() {
+        // Create empty schema equivalent to {}
+        Schema blankSchema = new Schema();
+        Assert.assertTrue(ModelUtils.isAnyType(blankSchema));
+
+        // Create schema with some trivial fields, still any type
+        Schema simpleSchema = new Schema();
+        simpleSchema.setTitle("myTitle");
+        Assert.assertTrue(ModelUtils.isAnyType(blankSchema));
+
+        // Create initial "empty" object schema, this is a map not any type
+        ObjectSchema objSchema = new ObjectSchema();
+        Assert.assertFalse(ModelUtils.isAnyType(objSchema));
+
+        // Add a single property to the schema
+        Map<String, Schema> props = new HashMap<>();
+        props.put("prop1", new StringSchema());
+        objSchema.setProperties(props);
+        Assert.assertFalse(ModelUtils.isAnyType(objSchema));
+
+        // Test a non-object schema
+        Assert.assertFalse(ModelUtils.isAnyType(new StringSchema()));
+
+        // Test a null schema
+        Assert.assertFalse(ModelUtils.isAnyType(null));
+    }
 }

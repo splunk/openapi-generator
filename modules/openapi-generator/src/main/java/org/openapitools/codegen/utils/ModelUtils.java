@@ -589,6 +589,9 @@ public class ModelUtils {
      * @return true if it's any type
      */
     public static boolean isAnyType(Schema schema) {
+        if (schema == null) {
+            return false;
+        }
         if (StringUtils.isNotEmpty(schema.get$ref())) {
             // schemas with $ref: are not anyType, though their referenced schema may be
             return false;
