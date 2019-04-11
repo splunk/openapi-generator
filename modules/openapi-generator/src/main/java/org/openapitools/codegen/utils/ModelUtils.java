@@ -548,6 +548,16 @@ public class ModelUtils {
             return false;
         }
 
+        // not free-form if $ref to another schema, though $ref schema may be free-form
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            return false;
+        }
+
+        // not free-form if enum
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            return false;
+        }
+
         // not free-form if allOf, anyOf, oneOf is not empty
         if (schema instanceof ComposedSchema) {
             ComposedSchema cs = (ComposedSchema) schema;
@@ -579,6 +589,14 @@ public class ModelUtils {
      * @return true if it's any type
      */
     public static boolean isAnyType(Schema schema) {
+        if (StringUtils.isNotEmpty(schema.get$ref())) {
+            // schemas with $ref: are not anyType, though their referenced schema may be
+            return false;
+        }
+        if (schema.getEnum() != null && !schema.getEnum().isEmpty()) {
+            // enum schemas are not anyType
+            return false;
+        }
         if (schema instanceof ComposedSchema) {
             // Composed schemas (allOf, anyOf, oneOf) take the type(s) listed
             return false;

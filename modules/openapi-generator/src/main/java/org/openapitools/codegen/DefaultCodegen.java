@@ -1757,26 +1757,28 @@ public class DefaultCodegen implements CodegenConfig {
             if (ModelUtils.isMapSchema(schema)) {
                 addAdditionPropertiesToCodeGenModel(m, schema);
                 m.isMapModel = Boolean.TRUE;
-                // Maps with no properties are aliases to simple types
+                // Maps with no properties are primitive types
                 if (schema.getProperties() == null || schema.getProperties().isEmpty()) {
-                    m.isAlias = Boolean.TRUE;
+                    m.isPrimitiveType = Boolean.TRUE;
                 }
             }
             if (ModelUtils.isIntegerSchema(schema)) { // integer type
                 if (!ModelUtils.isLongSchema(schema)) { // long type is not integer
                     m.isInteger = Boolean.TRUE;
                 }
+                m.isPrimitiveType = Boolean.TRUE;
             }
             if (ModelUtils.isStringSchema(schema)) {
                 m.isString = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
             }
             if (ModelUtils.isFreeFormObject(schema)) {
                 m.isFreeFormObject = Boolean.TRUE;
-                m.isAlias = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
             }
             if (ModelUtils.isAnyType(schema)) {
                 m.isAnyTypeModel = Boolean.TRUE;
-                m.isAlias = Boolean.TRUE;
+                m.isPrimitiveType = Boolean.TRUE;
             }
 
             // passing null to allProperties and allRequired as there's no parent
