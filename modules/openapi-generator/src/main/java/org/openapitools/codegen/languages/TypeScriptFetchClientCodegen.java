@@ -117,16 +117,20 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
 
     @Override
     public String getTypeDeclaration(Schema p) {
-        Schema inner;
         if ( ModelUtils.isArraySchema(p) ||
              ModelUtils.isFileSchema(p) ||
              ModelUtils.isBinarySchema(p) ||
              ModelUtils.isDateSchema(p) ||
              ModelUtils.isDateTimeSchema(p) ||
-             ModelUtils.isAnyType(p) ) {
+             ModelUtils.isAnyType(p) ||
+             ModelUtils.isFreeFormObject(p) ) {
             return this.getSchemaType(p);
-        } else if (ModelUtils.isFreeFormObject(p) || ModelUtils.isMapSchema(p)) {
-            return "{ " + this.getSchemaType(p) + "; }";
+        } else if (ModelUtils.isMapSchema(p)) {
+            String schemaType = this.getSchemaType(p);
+            if (schemaType.equals("object")) {
+                return "object";
+            }
+            return "{ " + schemaType + "; }";
         }
         return super.getTypeDeclaration(p);
     }
@@ -140,10 +144,15 @@ public class TypeScriptFetchClientCodegen extends AbstractTypeScriptClientCodege
         } else if (ModelUtils.isAnyType(p)) {
             return "any";
         } else if (ModelUtils.isFreeFormObject(p)) {
-            return "[key: string]: any";
+            return "object";
         } else if (ModelUtils.isMapSchema(p)) {
             inner = ModelUtils.getAdditionalProperties(p);
-            return "[key: string]: " + this.getTypeDeclaration(inner);
+            String innerType = this.getTypeDeclaration(inner);
+            if (innerType.equals("any")) {
+                // [key: string]: any is just an object type
+                return "object";
+            }
+            return "[key: string]: " + innerType;
         } else if (ModelUtils.isFileSchema(p)) {
             return "Blob";
         } else if (ModelUtils.isBinarySchema(p)) {
