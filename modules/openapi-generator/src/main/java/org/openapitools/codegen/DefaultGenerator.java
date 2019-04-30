@@ -17,6 +17,8 @@
 
 package org.openapitools.codegen;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import io.swagger.v3.core.util.Json;
@@ -311,6 +313,7 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                 LOGGER.info("Skipped overwriting " + filename);
                 continue;
             }
+            writeJson(models, "models_" + config.apiPackage() + "-" + modelName + ".json");
             File written = processTemplateToFile(models, templateName, filename);
             if (written != null) {
                 files.add(written);
@@ -601,7 +604,10 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
                         continue;
                     }
 
+
+                    writeJson(operation, "operation-" + config.apiPackage() + ".json");
                     File written = processTemplateToFile(operation, templateName, filename);
+
                     if (written != null) {
                         files.add(written);
                         if (config.isEnablePostProcessFile()) {
@@ -658,6 +664,25 @@ public class DefaultGenerator extends AbstractGenerator implements Generator {
             Json.prettyPrint(allOperations);
         }
 
+    }
+
+    private void writeJson(Map<String, Object> operation, String s) {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(operation);
+        File out = new File(s);
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter(out);
+            fw.write(json);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (fw != null) {
+                try {
+                    fw.close();
+                } catch (IOException e) { }
+            }
+        }
     }
 
     private void generateSupportingFiles(List<File> files, Map<String, Object> bundle) {
