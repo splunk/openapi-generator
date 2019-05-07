@@ -437,8 +437,6 @@ public class DefaultCodegenTest {
         CodegenDiscriminator test = new CodegenDiscriminator();
         test.setPropertyName("className");
         test.setPropertyBaseName("className");
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Dog", "Dog"));
-        test.getMappedModels().add(new CodegenDiscriminator.MappedModel("Cat", "Cat"));
         Assert.assertEquals(discriminator, test);
     }
 
