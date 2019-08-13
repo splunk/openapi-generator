@@ -31,6 +31,8 @@ public class CodegenParameter {
             collectionFormat, description, unescapedDescription, baseType, defaultValue, enumName;
 
     public String example; // example value (x-example)
+    public boolean explode;
+    public String style;
     public String jsonSchema;
     public boolean isString, isNumeric, isInteger, isLong, isNumber, isFloat, isDouble, isByteArray, isBinary,
             isBoolean, isDate, isDateTime, isUuid, isEmail, isFreeFormObject;
@@ -138,6 +140,8 @@ public class CodegenParameter {
         output.defaultValue = this.defaultValue;
         output.example = this.example;
         output.isEnum = this.isEnum;
+        output.style = this.style;
+        output.explode = this.explode;
         if (this._enum != null) {
             output._enum = new ArrayList<String>(this._enum);
         }
@@ -208,6 +212,8 @@ public class CodegenParameter {
             Objects.equals(baseType, that.baseType) &&
             Objects.equals(defaultValue, that.defaultValue) &&
             Objects.equals(example, that.example) &&
+            Objects.equals(style, that.style) &&
+            Objects.equals(explode, that.explode) &&
             Objects.equals(jsonSchema, that.jsonSchema) &&
             Objects.equals(isString, that.isString) &&
             Objects.equals(isNumeric, that.isNumeric) &&
@@ -275,6 +281,8 @@ public class CodegenParameter {
             baseType,
             defaultValue,
             example,
+            explode,
+            style,
             jsonSchema,
             isString,
             isNumeric,
@@ -343,6 +351,8 @@ public class CodegenParameter {
                 ", defaultValue='" + defaultValue + '\'' +
                 ", enumName='" + enumName + '\'' +
                 ", example='" + example + '\'' +
+                ", explode='" + explode + '\'' +
+                ", style='" + style + '\'' +
                 ", jsonSchema='" + jsonSchema + '\'' +
                 ", isString=" + isString +
                 ", isNumeric=" + isNumeric +

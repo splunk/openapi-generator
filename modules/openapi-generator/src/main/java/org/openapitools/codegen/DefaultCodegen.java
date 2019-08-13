@@ -2908,6 +2908,8 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
+        codegenParameter.explode = parameter.getExplode();
+        codegenParameter.style = (parameter.getStyle() == null ? null : parameter.getStyle().toString());
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
