@@ -2908,8 +2908,12 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
-        codegenParameter.explode = parameter.getExplode();
         codegenParameter.style = (parameter.getStyle() == null ? null : parameter.getStyle().toString());
+        codegenParameter.explode = (parameter.getExplode() == Boolean.TRUE);
+        if (parameter.getExplode() == null && codegenParameter.style != null && codegenParameter.style.toLowerCase(Locale.ROOT) == "form") {
+            // if explode not explicitly set, use default value of "true" for style: form
+            codegenParameter.explode = Boolean.TRUE;
+        }
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
