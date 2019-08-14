@@ -2910,10 +2910,6 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.unescapedDescription = parameter.getDescription();
         codegenParameter.style = (parameter.getStyle() == null ? null : parameter.getStyle().toString());
         codegenParameter.explode = (parameter.getExplode() == Boolean.TRUE);
-        if (parameter.getExplode() == null && codegenParameter.style != null && codegenParameter.style.toLowerCase(Locale.ROOT) == "form") {
-            // if explode not explicitly set, use default value of "true" for style: form
-            codegenParameter.explode = Boolean.TRUE;
-        }
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
