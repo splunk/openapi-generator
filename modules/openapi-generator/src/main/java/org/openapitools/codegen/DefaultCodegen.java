@@ -2924,6 +2924,8 @@ public class DefaultCodegen implements CodegenConfig {
         codegenParameter.baseName = parameter.getName();
         codegenParameter.description = escapeText(parameter.getDescription());
         codegenParameter.unescapedDescription = parameter.getDescription();
+        codegenParameter.style = (parameter.getStyle() == null ? null : parameter.getStyle().toString());
+        codegenParameter.explode = (parameter.getExplode() == Boolean.TRUE);
         if (parameter.getRequired() != null) {
             codegenParameter.required = parameter.getRequired();
         }
