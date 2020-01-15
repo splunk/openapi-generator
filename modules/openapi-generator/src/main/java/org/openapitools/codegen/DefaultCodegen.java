@@ -4616,7 +4616,7 @@ public class DefaultCodegen implements CodegenConfig {
         }
         schema = ModelUtils.getReferencedSchema(this.openAPI, schema);
 
-        if (ModelUtils.isMapSchema(schema)) {
+        if (ModelUtils.isMapSchema(schema) && !ModelUtils.isComposedSchema(schema)) {
             Schema inner = ModelUtils.getAdditionalProperties(schema);
             if (inner == null) {
                 inner = new StringSchema().description("//TODO automatically added by openapi-generator");
@@ -4643,7 +4643,7 @@ public class DefaultCodegen implements CodegenConfig {
 
             // set nullable
             setParameterNullable(codegenParameter, codegenProperty);
-        } else if (ModelUtils.isArraySchema(schema)) {
+        } else if (ModelUtils.isArraySchema(schema) && !ModelUtils.isComposedSchema(schema)) {
             final ArraySchema arraySchema = (ArraySchema) schema;
             Schema inner = arraySchema.getItems();
             if (inner == null) {
@@ -4690,7 +4690,7 @@ public class DefaultCodegen implements CodegenConfig {
                 codegenProperty = codegenProperty.items;
             }
 
-        } else if (ModelUtils.isFreeFormObject(schema)) {
+        } else if (ModelUtils.isFreeFormObject(schema) && !ModelUtils.isComposedSchema(schema)) {
             // HTTP request body is free form object
             CodegenProperty codegenProperty = fromProperty("FREE_FORM_REQUEST_BODY", schema);
             if (codegenProperty != null) {
