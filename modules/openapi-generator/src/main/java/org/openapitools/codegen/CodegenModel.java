@@ -24,7 +24,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.*;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
-public class CodegenModel implements java.io.Serializable  {
+public class CodegenModel implements java.io.Serializable,Cloneable  {
     public String parent, parentSchema;
     public List<String> interfaces;
     public List<String> allParents;
@@ -602,5 +602,9 @@ public class CodegenModel implements java.io.Serializable  {
                 }
             }
         }
+    }
+
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
