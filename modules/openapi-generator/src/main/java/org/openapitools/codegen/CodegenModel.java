@@ -24,7 +24,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import java.util.*;
 
 @JsonIgnoreProperties({"parentModel", "interfaceModels"})
-public class CodegenModel {
+public class CodegenModel implements java.io.Serializable  {
     public String parent, parentSchema;
     public List<String> interfaces;
     public List<String> allParents;
